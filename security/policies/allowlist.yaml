@@ -1,0 +1,13 @@
+allowed_commands:
+  - python
+  - pytest
+  - bandit
+  - semgrep
+  - trivy
+
+allowed_extensions:
+  - .py
+  - .md
+  - .yaml
+  - .yml
+  - .json

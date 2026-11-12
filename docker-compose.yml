@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./apps/template-service
+    container_name: sdlc_api
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: development
+      JWT_SECRET: changeme-super-secret
+      DOCUMENTS_DIR: /app/data
+    volumes:
+      - ./apps/template-service:/app
+    restart: unless-stopped
+
+  security-scanner:
+    image: python:3.11-slim
+    container_name: sdlc_security_scanner
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: ["bash", "-lc", "python -m pip install --no-cache-dir bandit semgrep && echo 'Security tools ready' "]
+    restart: no

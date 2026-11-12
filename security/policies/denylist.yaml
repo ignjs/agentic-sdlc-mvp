@@ -1,0 +1,9 @@
+blocked_tokens:
+  - "eval("
+  - "exec("
+  - "os.system("
+  - "subprocess.run("
+  - "DROP TABLE"
+  - "BEGIN TRANSACTION"
+  - "Authorization: Bearer secret"
+  - "AKIA"

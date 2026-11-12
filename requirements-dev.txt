@@ -1,0 +1,8 @@
+-r apps/template-service/requirements.txt
+black>=24.4.2
+ruff>=0.4.8
+mypy>=1.10.0
+pytest>=8.3.2
+pytest-cov>=5.0.0
+bandit>=1.7.8
+semgrep>=1.68.0

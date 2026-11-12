@@ -1,0 +1,6 @@
+severity_threshold: "high"
+allow_untrusted_input: false
+scan_python_files: true
+scan_container_images: true
+require_tests_for_patch: true
+block_deploy_on_critical: true
