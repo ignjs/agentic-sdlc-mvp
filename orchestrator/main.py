@@ -11,9 +11,14 @@ from orchestrator.workflow import AgenticWorkflow
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the agentic SDLC workflow with security guardrails")
     parser.add_argument("--intent", default=str(CONFIG.intent_path), help="Path to the project's intent file")
+    parser.add_argument(
+        "--project-root",
+        default=str(CONFIG.root_dir),
+        help="Path where the project repository/workspace should exist. If missing, a local folder is created.",
+    )
     args = parser.parse_args()
 
-    workflow = AgenticWorkflow(intent_path=Path(args.intent))
+    workflow = AgenticWorkflow(intent_path=Path(args.intent), project_root=Path(args.project_root))
     result = workflow.run()
 
     print(json.dumps({
@@ -22,6 +27,8 @@ def main() -> None:
         "security_report": result.security_report,
         "red_team_results": result.red_team_results,
         "patch_plan": result.patch_plan,
+        "project_root": result.project_root,
+        "project_root_created": result.project_root_created,
     }, indent=2, ensure_ascii=False))
 
 
