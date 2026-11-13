@@ -37,6 +37,12 @@ pip install -r requirements-dev.txt
 python -m orchestrator.main --intent intent.md
 ```
 
+Para ejecutar controles tipo CI al final del flujo:
+
+```bash
+python -m orchestrator.main --intent intent.md --run-controls
+```
+
 ### ¿Qué ejecuta `orchestrator.main`?
 
 El comando ejecuta el flujo SDLC del MVP y devuelve un resumen JSON con resultados.
@@ -57,6 +63,12 @@ No incluido automáticamente en este comando:
 - scripts de `security/scripts/*`
 - despliegue final de infraestructura
 
+Controles opcionales con `--run-controls`:
+
+1. `pytest -q`
+2. `bash security/scripts/run_sast.sh`
+3. `bash security/scripts/run_dependency_scan.sh`
+
 ### Resolución automática de carpeta local de proyecto
 
 Al ejecutar el flujo con `intent.md`, el orquestador valida si la ruta de proyecto indicada existe como repo/workspace local.
@@ -74,6 +86,51 @@ La salida JSON del comando incluye:
 
 - `project_root`: ruta final usada por el workflow
 - `project_root_created`: `true/false` indicando si se creó carpeta ad hoc
+- `execution_controls`: arreglo con resultados de controles (vacío si no se usa `--run-controls`)
+
+Ejemplo resumido de cada control en `execution_controls`:
+
+- `name`
+- `command`
+- `exit_code`
+- `passed`
+- `stdout`
+- `stderr`
+
+Ejemplo de salida JSON (resumida):
+
+```json
+{
+	"project_root": "/Users/ignacio/projects/agentic-sdlc-mvp",
+	"project_root_created": false,
+	"execution_controls": [
+		{
+			"name": "tests",
+			"command": "pytest -q",
+			"exit_code": 0,
+			"passed": true,
+			"stdout": "3 passed in 0.36s",
+			"stderr": ""
+		},
+		{
+			"name": "sast",
+			"command": "bash security/scripts/run_sast.sh",
+			"exit_code": 0,
+			"passed": true,
+			"stdout": "...",
+			"stderr": ""
+		},
+		{
+			"name": "dependency_scan",
+			"command": "bash security/scripts/run_dependency_scan.sh",
+			"exit_code": 0,
+			"passed": true,
+			"stdout": "...",
+			"stderr": ""
+		}
+	]
+}
+```
 
 ### Generación por intent de plantillas frontend
 
